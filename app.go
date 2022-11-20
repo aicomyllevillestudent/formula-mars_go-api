@@ -64,6 +64,6 @@ func main() {
 	if os.Getenv("PORT") != "" {
 		router.Run("0.0.0.0:" + os.Getenv("PORT"))
 	} else {
-		router.Run("0.0.0.0:8080")
+		router.Run("0.0.0.0:8000")
 	}
 }
