@@ -6,6 +6,7 @@ import (
 	"github.com/aicomylleville/formula-mars_go-api/controllers"
 	"github.com/aicomylleville/formula-mars_go-api/middlewares"
 	"github.com/aicomylleville/formula-mars_go-api/models"
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,6 +16,13 @@ func main() {
 	models.ConnectDatabase()
 
 	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowHeaders:     []string{"Origin, X-Requested-With, Content-Type, Accept"},
+		AllowCredentials: true,
+	}))
 
 	public := router.Group("/api")
 	public.POST("/register", controllers.Register)
