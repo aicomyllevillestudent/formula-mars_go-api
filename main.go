@@ -19,15 +19,16 @@ func main() {
 	router.Use(middlewares.CORSMiddleware())
 
 	public := router.Group("/api")
+	public.Use(middlewares.CORSMiddleware())
 	public.POST("/register", controllers.Register)
 	public.POST("/login", controllers.Login)
 
 	users := router.Group("/api/user")
-	users.Use(middlewares.JwtAuthMiddleware())
+	users.Use(middlewares.JwtAuthMiddleware(), middlewares.CORSMiddleware())
 	users.GET("/", controllers.CurrentUser)
 
 	races := router.Group("/api/races")
-	races.Use(middlewares.JwtAuthMiddleware())
+	races.Use(middlewares.JwtAuthMiddleware(), middlewares.CORSMiddleware())
 	races.GET("/", controllers.GetRaces)
 	races.POST("/", controllers.AddRace)
 	races.GET("/:id", controllers.GetRaceByID)
@@ -35,7 +36,7 @@ func main() {
 	races.DELETE("/:id", controllers.DeleteRace)
 
 	championships := router.Group("/api/championships")
-	championships.Use(middlewares.JwtAuthMiddleware())
+	championships.Use(middlewares.JwtAuthMiddleware(), middlewares.CORSMiddleware())
 	championships.GET("/", controllers.GetChampionships)
 	championships.POST("/", controllers.AddChampionship)
 	championships.GET("/:id", controllers.GetChampionshipById)
@@ -43,7 +44,7 @@ func main() {
 	championships.DELETE("/:id", controllers.DeleteChampionship)
 
 	drivers := router.Group("/api/drivers")
-	drivers.Use(middlewares.JwtAuthMiddleware())
+	drivers.Use(middlewares.JwtAuthMiddleware(), middlewares.CORSMiddleware())
 	drivers.GET("/", controllers.GetDrivers)
 	drivers.POST("/", controllers.AddDriver)
 	drivers.GET("/:id", controllers.GetDriverById)
