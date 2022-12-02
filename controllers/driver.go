@@ -21,3 +21,76 @@ func GetDrivers(c *gin.Context) {
 
 	c.JSON(http.StatusOK, drivers)
 }
+
+func AddDriver(c *gin.Context) {
+	var input DriverInput
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	driver := models.Driver{}
+
+	driver.Name = input.Name
+
+	_, err := driver.AddDriver()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, driver)
+}
+
+func GetDriverById(c *gin.Context) {
+	id := c.Param("id")
+
+	driver, err := models.GetDriverById(id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, driver)
+}
+
+func UpdateDriver(c *gin.Context) {
+	id := c.Param("id")
+
+	var input DriverInput
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	driver := models.Driver{}
+
+	driver.Name = input.Name
+
+	_, err := driver.UpdateDriver(id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"id": id, "name": driver.Name})
+
+}
+
+func DeleteDriver(c *gin.Context) {
+	id := c.Param("id")
+
+	driver := models.Driver{}
+
+	if err := driver.DeleteDriver(id); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Driver has been deleted"})
+}

@@ -18,8 +18,8 @@ func main() {
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
-		AllowHeaders:     []string{"Origin, X-Requested-With, Content-Type, Accept, Authorization"},
+		AllowMethods:     []string{"*"},
+		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,
 		AllowAllOrigins:  true,
 	}))
@@ -51,6 +51,10 @@ func main() {
 	drivers := router.Group("/api/drivers")
 	drivers.Use(middlewares.JwtAuthMiddleware())
 	drivers.GET("/", controllers.GetDrivers)
+	drivers.POST("/", controllers.AddDriver)
+	drivers.GET("/:id", controllers.GetDriverById)
+	drivers.PUT("/:id", controllers.UpdateDriver)
+	drivers.DELETE("/:id", controllers.DeleteDriver)
 
 	if os.Getenv("PORT") != "" {
 		router.Run("0.0.0.0:" + os.Getenv("PORT"))

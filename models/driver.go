@@ -18,3 +18,40 @@ func GetDrivers() ([]Driver, error) {
 
 	return drivers, nil
 }
+
+func (driver *Driver) AddDriver() (*Driver, error) {
+
+	if err := DB.Create(&driver).Error; err != nil {
+		return driver, errors.New("Race not found")
+	}
+
+	return driver, nil
+}
+
+func GetDriverById(id string) (Driver, error) {
+	var driver Driver
+
+	if err := DB.First(&driver, id).Error; err != nil {
+		return driver, errors.New("Driver not found")
+	}
+
+	return driver, nil
+}
+
+func (driver *Driver) UpdateDriver(id string) (*Driver, error) {
+
+	if err := DB.Model(&driver).Where(id).Updates(driver).Error; err != nil {
+		return driver, err
+	}
+
+	return driver, nil
+}
+
+func (driver *Driver) DeleteDriver(id string) error {
+
+	if err := DB.Where(id).Delete(&driver).Error; err != nil {
+		return errors.New("Driver not deleted")
+	}
+
+	return nil
+}
