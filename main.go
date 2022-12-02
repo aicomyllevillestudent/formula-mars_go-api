@@ -6,7 +6,6 @@ import (
 	"github.com/aicomylleville/formula-mars_go-api/controllers"
 	"github.com/aicomylleville/formula-mars_go-api/middlewares"
 	"github.com/aicomylleville/formula-mars_go-api/models"
-	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,12 +16,7 @@ func main() {
 
 	router := gin.Default()
 
-	router.Use(cors.New(cors.Config{
-		AllowMethods:     []string{"*"},
-		AllowHeaders:     []string{"*"},
-		AllowCredentials: true,
-		AllowAllOrigins:  true,
-	}))
+	router.Use(middlewares.CORSMiddleware())
 
 	public := router.Group("/api")
 	public.POST("/register", controllers.Register)
@@ -33,6 +27,7 @@ func main() {
 	users.GET("/", controllers.CurrentUser)
 
 	races := router.Group("/api/races")
+	races.Use(middlewares.CORSMiddleware())
 	races.Use(middlewares.JwtAuthMiddleware())
 	races.GET("/", controllers.GetRaces)
 	races.POST("/", controllers.AddRace)
