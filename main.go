@@ -27,7 +27,6 @@ func main() {
 	users.GET("/", controllers.CurrentUser)
 
 	races := router.Group("/api/races")
-	races.Use(middlewares.CORSMiddleware())
 	races.Use(middlewares.JwtAuthMiddleware())
 	races.GET("/", controllers.GetRaces)
 	races.POST("/", controllers.AddRace)
