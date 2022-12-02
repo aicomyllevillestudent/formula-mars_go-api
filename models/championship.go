@@ -10,13 +10,13 @@ type Championship struct {
 }
 
 func GetChampionships() ([]Championship, error) {
-	var championship []Championship
+	var championships []Championship
 
-	if err := DB.Find(&championship).Error; err != nil {
-		return championship, errors.New("Championship not found")
+	if err := DB.Find(&championships).Error; err != nil {
+		return championships, errors.New("Championship not found")
 	}
 
-	return championship, nil
+	return championships, nil
 }
 
 func (championship *Championship) AddChampionship() (*Championship, error) {

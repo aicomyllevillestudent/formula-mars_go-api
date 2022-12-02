@@ -12,14 +12,14 @@ type ChampionshipInput struct {
 }
 
 func GetChampionships(c *gin.Context) {
-	championship, err := models.GetChampionships()
+	championships, err := models.GetChampionships()
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, championship)
+	c.JSON(http.StatusOK, championships)
 }
 
 func AddChampionship(c *gin.Context) {

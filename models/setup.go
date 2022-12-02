@@ -39,7 +39,5 @@ func ConnectDatabase() {
 		fmt.Println("Connection success: ", DbDriver)
 	}
 
-	DB.AutoMigrate(&User{})
-	DB.AutoMigrate(&Race{})
-	DB.AutoMigrate(&Championship{})
+	DB.AutoMigrate(&User{}, &Race{}, &Championship{}, &Driver{})
 }
