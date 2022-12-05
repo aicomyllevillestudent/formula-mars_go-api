@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/aicomylleville/formula-mars_go-api/models"
@@ -39,7 +40,7 @@ func CORSMiddleware() gin.HandlerFunc {
 func OpenConnection() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		models.ConnectDatabase()
-
+		fmt.Println("Connected to database")
 		c.Next()
 	}
 }
