@@ -3,6 +3,7 @@ package middlewares
 import (
 	"net/http"
 
+	"github.com/aicomylleville/formula-mars_go-api/models"
 	"github.com/aicomylleville/formula-mars_go-api/utils/token"
 	"github.com/gin-gonic/gin"
 )
@@ -30,6 +31,14 @@ func CORSMiddleware() gin.HandlerFunc {
 			c.AbortWithStatus(204)
 			return
 		}
+
+		c.Next()
+	}
+}
+
+func OpenConnection() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		models.ConnectDatabase()
 
 		c.Next()
 	}
