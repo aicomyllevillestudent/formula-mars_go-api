@@ -34,14 +34,14 @@ func AddDriver(c *gin.Context) {
 
 	driver.Name = input.Name
 
-	_, err := driver.AddDriver()
+	err := driver.AddDriver()
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, driver)
+	c.JSON(http.StatusOK, "Created")
 }
 
 func GetDriverById(c *gin.Context) {
@@ -71,14 +71,14 @@ func UpdateDriver(c *gin.Context) {
 
 	driver.Name = input.Name
 
-	_, err := driver.UpdateDriver(id)
+	err := driver.UpdateDriver(id)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"id": id, "name": driver.Name})
+	c.JSON(http.StatusOK, "Updated")
 
 }
 
@@ -92,5 +92,5 @@ func DeleteDriver(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Driver has been deleted"})
+	c.JSON(http.StatusOK, "Deleted")
 }

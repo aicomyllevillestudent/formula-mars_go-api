@@ -61,14 +61,14 @@ func AddRace(c *gin.Context) {
 	r.Date = input.Date
 	r.Finished = input.Finished
 
-	_, err := r.AddRace()
+	err := r.AddRace()
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, r)
+	c.JSON(http.StatusOK, "Created")
 }
 
 func UpdateRace(c *gin.Context) {
@@ -95,7 +95,7 @@ func UpdateRace(c *gin.Context) {
 	r.Date = input.Date
 	r.Finished = input.Finished
 
-	_, error := r.UpdateRace(uint(intId))
+	error := r.UpdateRace(uint(intId))
 
 	r.ID = uint(intId)
 	if error != nil {
@@ -103,7 +103,7 @@ func UpdateRace(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, r)
+	c.JSON(http.StatusOK, "Updated")
 }
 
 func DeleteRace(c *gin.Context) {
@@ -122,5 +122,5 @@ func DeleteRace(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Race has been deleted"})
+	c.JSON(http.StatusOK, "Deleted")
 }

@@ -34,14 +34,14 @@ func AddChampionship(c *gin.Context) {
 
 	championship.Name = input.Name
 
-	_, err := championship.AddChampionship()
+	err := championship.AddChampionship()
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, championship)
+	c.JSON(http.StatusOK, "Created")
 }
 
 func GetChampionshipById(c *gin.Context) {
@@ -71,14 +71,14 @@ func UpdateChampionship(c *gin.Context) {
 
 	championship.Name = input.Name
 
-	_, err := championship.UpdateChampionship(id)
+	err := championship.UpdateChampionship(id)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"id": id, "name": championship.Name})
+	c.JSON(http.StatusOK, "Updated")
 
 }
 
@@ -92,5 +92,5 @@ func DeleteChampionship(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "Championship has been deleted"})
+	c.JSON(http.StatusOK, "Deleted")
 }

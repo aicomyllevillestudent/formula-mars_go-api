@@ -35,21 +35,21 @@ func GetRaceByID(uid uint) (Race, error) {
 	return r, nil
 }
 
-func (r *Race) AddRace() (*Race, error) {
+func (r *Race) AddRace() error {
 	if err := DB.Create(&r).Error; err != nil {
-		return r, err
+		return err
 	}
 
-	return r, nil
+	return nil
 }
 
-func (r *Race) UpdateRace(id uint) (*Race, error) {
+func (r *Race) UpdateRace(id uint) error {
 
 	if err := DB.Model(&r).Where(id).Updates(r).Error; err != nil {
-		return r, err
+		return err
 	}
 
-	return r, nil
+	return nil
 }
 
 func (r *Race) DeleteRace(id uint) error {

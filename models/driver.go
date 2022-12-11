@@ -21,13 +21,13 @@ func GetDrivers() ([]Driver, error) {
 	return drivers, nil
 }
 
-func (driver *Driver) AddDriver() (*Driver, error) {
+func (driver *Driver) AddDriver() error {
 
 	if err := DB.Create(&driver).Error; err != nil {
-		return driver, errors.New("Race not found")
+		return errors.New("Race not found")
 	}
 
-	return driver, nil
+	return nil
 }
 
 func GetDriverById(id string) (Driver, error) {
@@ -40,13 +40,13 @@ func GetDriverById(id string) (Driver, error) {
 	return driver, nil
 }
 
-func (driver *Driver) UpdateDriver(id string) (*Driver, error) {
+func (driver *Driver) UpdateDriver(id string) error {
 
 	if err := DB.Model(&driver).Where(id).Updates(driver).Error; err != nil {
-		return driver, err
+		return err
 	}
 
-	return driver, nil
+	return nil
 }
 
 func (driver *Driver) DeleteDriver(id string) error {

@@ -68,7 +68,7 @@ func UpdateWallet(c *gin.Context) {
 	u.Wallet = input.Wallet
 	u.UpdateWallet()
 
-	c.JSON(http.StatusOK, u)
+	c.JSON(http.StatusOK, "Updated")
 }
 
 func Login(c *gin.Context) {

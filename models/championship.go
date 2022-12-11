@@ -20,13 +20,13 @@ func GetChampionships() ([]Championship, error) {
 	return championships, nil
 }
 
-func (championship *Championship) AddChampionship() (*Championship, error) {
+func (championship *Championship) AddChampionship() error {
 
 	if err := DB.Create(&championship).Error; err != nil {
-		return championship, errors.New("Race not found")
+		return errors.New("Race not found")
 	}
 
-	return championship, nil
+	return nil
 }
 
 func GetChampionshipById(id string) (Championship, error) {
@@ -39,13 +39,13 @@ func GetChampionshipById(id string) (Championship, error) {
 	return championship, nil
 }
 
-func (championship *Championship) UpdateChampionship(id string) (*Championship, error) {
+func (championship *Championship) UpdateChampionship(id string) error {
 
 	if err := DB.Model(&championship).Where(id).Updates(championship).Error; err != nil {
-		return championship, err
+		return err
 	}
 
-	return championship, nil
+	return nil
 }
 
 func (championship *Championship) DeleteChampionship(id string) error {
