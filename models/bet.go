@@ -15,7 +15,7 @@ type Bet struct {
 func GetBets(user_id uint) ([]Bet, error) {
 	var bets []Bet
 
-	if err := DB.Find(&bets).Error; err != nil {
+	if err := DB.Where("user_id = ?", user_id).Find(&bets).Error; err != nil {
 		return bets, errors.New("bets not found")
 	}
 
