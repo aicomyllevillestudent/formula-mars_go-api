@@ -46,6 +46,11 @@ func main() {
 	drivers.PUT("/:id", controllers.UpdateDriver)
 	drivers.DELETE("/:id", controllers.DeleteDriver)
 
+	bets := router.Group("/api/bets")
+	bets.Use(middlewares.JwtAuthMiddleware())
+	bets.GET("/", controllers.GetBets)
+	bets.POST("/", controllers.AddBet)
+
 	if os.Getenv("PORT") != "" {
 		router.Run("0.0.0.0:" + os.Getenv("PORT"))
 	} else {

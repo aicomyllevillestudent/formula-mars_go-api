@@ -24,7 +24,7 @@ func GetDrivers() ([]Driver, error) {
 func (driver *Driver) AddDriver() error {
 
 	if err := DB.Create(&driver).Error; err != nil {
-		return errors.New("Race not found")
+		return errors.New("Driver not added")
 	}
 
 	return nil
