@@ -23,6 +23,7 @@ func main() {
 	users := router.Group("/api/user")
 	users.Use(middlewares.JwtAuthMiddleware())
 	users.GET("/", controllers.CurrentUser)
+	users.PUT("/", controllers.UpdateWallet)
 
 	races := router.Group("/api/races")
 	races.GET("/", controllers.GetRaces)

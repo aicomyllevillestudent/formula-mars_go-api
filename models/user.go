@@ -13,8 +13,9 @@ import (
 
 type User struct {
 	gorm.Model
-	Username string `gorm:"size:255;not null;unique" json:"username"`
-	Password string `gorm:"size:255;not null;" json:"password"`
+	Username string  `gorm:"size:255;not null;unique" json:"username"`
+	Password string  `gorm:"size:255;not null;" json:"password"`
+	Wallet   float64 `gorm:"type:decimal(10,2)" json:"wallet"`
 }
 
 func GetUserByID(uid uint) (User, error) {
@@ -66,6 +67,15 @@ func LoginCheck(username string, password string) (string, error) {
 
 	return token, nil
 
+}
+
+func (user *User) UpdateWallet() (*User, error) {
+
+	if err := DB.Model(&user).Where(user.ID).Updates(user).Error; err != nil {
+		return user, err
+	}
+
+	return user, nil
 }
 
 func (u *User) SaveUser() (*User, error) {

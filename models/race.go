@@ -6,11 +6,12 @@ import (
 )
 
 type Race struct {
-	ID             uint      `gorm:"primary_key" json:"id"`
+	ID             uint      `gorm:"primaryKey" json:"id"`
 	ChampionshipId uint      `gorm:"not null" json:"championshipId"`
 	Name           string    `gorm:"size:255;not null" json:"name"`
 	Date           time.Time `gorm:"size:255;not null" json:"date"`
 	Finished       bool      `gorm:"not null" json:"finished"`
+	Drivers        []Driver  `gorm:"many2many:race_drivers" json:"drivers"`
 }
 
 func GetRaces() ([]Race, error) {
@@ -27,7 +28,7 @@ func GetRaceByID(uid uint) (Race, error) {
 
 	var r Race
 
-	if err := DB.First(&r, uid).Error; err != nil {
+	if err := DB.First(&r, uid).Preload("Drivers").Error; err != nil {
 		return r, errors.New("Race not found")
 	}
 

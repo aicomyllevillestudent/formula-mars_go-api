@@ -5,8 +5,10 @@ import (
 )
 
 type Driver struct {
-	ID   uint   `gorm:"primary_key" json:"id"`
-	Name string `gorm:"size:255;not null" json:"name"`
+	ID            uint           `gorm:"primaryKey" json:"id"`
+	Name          string         `gorm:"size:255;not null" json:"name"`
+	Races         []Race         `gorm:"many2many:race_drivers" json:"races"`
+	Championships []Championship `gorm:"many2many:championship_drivers" json:"championships"`
 }
 
 func GetDrivers() ([]Driver, error) {

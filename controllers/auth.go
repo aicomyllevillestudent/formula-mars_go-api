@@ -9,6 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type RegisterInput struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+type LoginInput struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+type WalletInput struct {
+	Wallet float64 `json:"wallet" binding:"required"`
+}
+
 func CurrentUser(c *gin.Context) {
 
 	user_id, err := token.ExtractTokenID(c)
@@ -28,9 +42,33 @@ func CurrentUser(c *gin.Context) {
 	c.JSON(http.StatusOK, u)
 }
 
-type LoginInput struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+func UpdateWallet(c *gin.Context) {
+
+	var input WalletInput
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user_id, err := token.ExtractTokenID(c)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	u, err := models.GetUserByID(user_id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	u.Wallet = input.Wallet
+	u.UpdateWallet()
+
+	c.JSON(http.StatusOK, u)
 }
 
 func Login(c *gin.Context) {
@@ -54,11 +92,6 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"token": token})
-}
-
-type RegisterInput struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
 }
 
 func Register(c *gin.Context) {

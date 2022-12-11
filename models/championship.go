@@ -5,8 +5,9 @@ import (
 )
 
 type Championship struct {
-	ID   uint   `gorm:"primary_key" json:"id"`
-	Name string `gorm:"size:255;not null" json:"name"`
+	ID      uint     `gorm:"primaryKey" json:"id"`
+	Name    string   `gorm:"size:255;not null" json:"name"`
+	Drivers []Driver `gorm:"many2many:championship_drivers" json:"drivers"`
 }
 
 func GetChampionships() ([]Championship, error) {
@@ -31,7 +32,7 @@ func (championship *Championship) AddChampionship() (*Championship, error) {
 func GetChampionshipById(id string) (Championship, error) {
 	var championship Championship
 
-	if err := DB.First(&championship, id).Error; err != nil {
+	if err := DB.First(&championship, id).Preload("Drivers").Error; err != nil {
 		return championship, errors.New("Championship not found")
 	}
 
