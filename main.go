@@ -13,8 +13,7 @@ func main() {
 
 	router := gin.Default()
 
-	router.Use(middlewares.CORSMiddleware())
-	router.Use(middlewares.OpenConnection())
+	router.Use(middlewares.CORSMiddleware(), middlewares.OpenConnection())
 
 	public := router.Group("/api")
 	public.POST("/register", controllers.Register)
@@ -31,6 +30,12 @@ func main() {
 	races.GET("/:id", controllers.GetRaceByID)
 	races.PUT("/:id", controllers.UpdateRace)
 	races.DELETE("/:id", controllers.DeleteRace)
+
+	live := router.Group("/api/races/live")
+	live.GET("/", controllers.GetLive)
+	live.POST("/", controllers.AddLive)
+	live.PUT("/", controllers.UpdateLive)
+	live.DELETE("/", controllers.DeleteLive)
 
 	championships := router.Group("/api/championships")
 	championships.GET("/", controllers.GetChampionships)
