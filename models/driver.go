@@ -7,8 +7,22 @@ import (
 type Driver struct {
 	ID            uint           `gorm:"primaryKey" json:"id"`
 	Name          string         `gorm:"size:255;not null" json:"name"`
-	Races         []Race         `gorm:"many2many:race_drivers" json:"races"`
-	Championships []Championship `gorm:"many2many:championship_drivers" json:"championships"`
+	Races         []Race         `gorm:"many2many:race_drivers" json:"-"`
+	Championships []Championship `gorm:"many2many:championship_drivers" json:"-"`
+}
+
+type RaceDriver struct {
+	RaceID   int `gorm:"primaryKey" json:"race_id"`
+	DriverID int `gorm:"primaryKey" json:"driver_id"`
+	Position int `json:"position"`
+	Laps     int `json:"points"`
+}
+
+type ChampionshipDriver struct {
+	ChampionshipID int `gorm:"primaryKey" json:"championship_id"`
+	DriverID       int `gorm:"primaryKey" json:"driver_id"`
+	Position       int `json:"position"`
+	Points         int `json:"points"`
 }
 
 func GetDrivers() ([]Driver, error) {

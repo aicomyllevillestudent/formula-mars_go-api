@@ -1,10 +1,8 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 
-	"github.com/aicomylleville/formula-mars_go-api/models"
 	"github.com/aicomylleville/formula-mars_go-api/utils/token"
 	"github.com/gin-gonic/gin"
 )
@@ -34,14 +32,5 @@ func CORSMiddleware() gin.HandlerFunc {
 		}
 
 		c.Next()
-	}
-}
-
-func OpenConnection() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		models.ConnectDatabase()
-		fmt.Println("Connected to database")
-		c.Next()
-		defer models.DB.Close()
 	}
 }

@@ -5,15 +5,18 @@ import (
 
 	"github.com/aicomylleville/formula-mars_go-api/controllers"
 	"github.com/aicomylleville/formula-mars_go-api/middlewares"
+	"github.com/aicomylleville/formula-mars_go-api/models"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
+	models.ConnectDatabase()
+
 	router := gin.Default()
 
-	router.Use(middlewares.CORSMiddleware(), middlewares.OpenConnection())
+	router.Use(middlewares.CORSMiddleware())
 
 	public := router.Group("/api")
 	public.POST("/register", controllers.Register)

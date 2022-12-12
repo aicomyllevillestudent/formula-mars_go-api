@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	// _ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
@@ -30,7 +32,7 @@ func ConnectDatabase() {
 
 	DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s password=%s", DbHost, DbPort, DbUser, DbName, SSLMode, DbPassword)
 
-	DB, err = gorm.Open(DbDriver, DBURL)
+	DB, err = gorm.Open(postgres.Open(DBURL), &gorm.Config{})
 
 	if err != nil {
 		fmt.Println("Cannot connect to database: ", DbDriver)
@@ -39,5 +41,13 @@ func ConnectDatabase() {
 		fmt.Println("Connection success: ", DbDriver)
 	}
 
+	postgresDB, _ := DB.DB()
+	postgresDB.SetMaxIdleConns(25)
+	postgresDB.SetMaxOpenConns(100)
+	postgresDB.SetConnMaxLifetime(time.Minute)
+
+	DB.SetupJoinTable(&Race{}, "Drivers", &RaceDriver{})
+
 	DB.AutoMigrate(&User{}, &Race{}, &Live{}, &Championship{}, &Driver{}, &Bet{})
+
 }

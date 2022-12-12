@@ -28,7 +28,7 @@ func GetRaceByID(uid uint) (Race, error) {
 
 	var r Race
 
-	if err := DB.First(&r, uid).Preload("Drivers").Error; err != nil {
+	if err := DB.Preload("Drivers").First(&r, uid).Error; err != nil {
 		return r, errors.New("Race not found")
 	}
 

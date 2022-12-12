@@ -32,7 +32,7 @@ func (championship *Championship) AddChampionship() error {
 func GetChampionshipById(id string) (Championship, error) {
 	var championship Championship
 
-	if err := DB.First(&championship, id).Preload("Drivers").Error; err != nil {
+	if err := DB.Preload("Drivers").First(&championship, id).Error; err != nil {
 		return championship, errors.New("Championship not found")
 	}
 
