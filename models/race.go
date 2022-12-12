@@ -36,7 +36,22 @@ func GetRaceByID(uid uint) (Race, error) {
 }
 
 func (r *Race) AddRace() error {
+
 	if err := DB.Create(&r).Error; err != nil {
+		return err
+	}
+
+	if err := AddDriversToRace(&r.ID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func AddDriversToRace(id *uint) error {
+	var drivers = []RaceDriver{{RaceID: int(*id), DriverID: 1}, {RaceID: int(*id), DriverID: 2}, {RaceID: int(*id), DriverID: 3}, {RaceID: int(*id), DriverID: 4}, {RaceID: int(*id), DriverID: 5}, {RaceID: int(*id), DriverID: 6}}
+
+	if err := DB.Create(&drivers).Error; err != nil {
 		return err
 	}
 
