@@ -42,5 +42,6 @@ func OpenConnection() gin.HandlerFunc {
 		models.ConnectDatabase()
 		fmt.Println("Connected to database")
 		c.Next()
+		defer models.DB.Close()
 	}
 }
