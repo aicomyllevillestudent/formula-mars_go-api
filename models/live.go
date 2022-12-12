@@ -3,16 +3,16 @@ package models
 import "errors"
 
 type Live struct {
-	ID      uint     `gorm:"primaryKey" json:"id"`
-	RaceID  int      `json:"race_id"`
-	Drivers []Driver `json:"drivers"`
-	Link    string   `json:"link"`
+	ID     uint   `gorm:"primaryKey" json:"id"`
+	RaceID int    `json:"-"`
+	Race   Race   `gorm:"foreignKey:RaceID;references:ID" json:"race"`
+	Link   string `json:"link"`
 }
 
 func GetLive() (Live, error) {
 	var live Live
 
-	if err := DB.Find(&live).Last(&live).Error; err != nil {
+	if err := DB.Find(&live).Preload("Race").Last(&live).Error; err != nil {
 		return live, errors.New("no live race found")
 	}
 

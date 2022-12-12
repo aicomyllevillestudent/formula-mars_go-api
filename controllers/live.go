@@ -8,9 +8,8 @@ import (
 )
 
 type AddLiveInput struct {
-	RaceID  int             `json:"race_id"`
-	Drivers []models.Driver `json:"drivers"`
-	Link    string          `json:"link"`
+	RaceID int    `json:"race_id"`
+	Link   string `json:"link"`
 }
 
 type UpdateLiveInput struct {
@@ -41,7 +40,6 @@ func AddLive(c *gin.Context) {
 	live := models.Live{}
 
 	live.RaceID = input.RaceID
-	live.Drivers = input.Drivers
 	live.Link = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 
 	err := live.AddLive()
@@ -65,7 +63,7 @@ func UpdateLive(c *gin.Context) {
 
 	live := models.Live{}
 
-	live.Drivers = input.Drivers
+	// live.Drivers = input.Drivers
 
 	err := live.UpdateLive()
 
