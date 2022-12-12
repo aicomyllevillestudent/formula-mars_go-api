@@ -46,7 +46,9 @@ func ConnectDatabase() {
 	postgresDB.SetMaxOpenConns(100)
 	postgresDB.SetConnMaxLifetime(time.Minute)
 
-	DB.SetupJoinTable(&Race{}, "Drivers", &RaceDriver{})
+	if err := DB.SetupJoinTable(&Race{}, "Drivers", &RaceDriver{}); err != nil {
+		fmt.Println(err)
+	}
 
 	DB.AutoMigrate(&User{}, &Race{}, &Live{}, &Championship{}, &Driver{}, &Bet{})
 

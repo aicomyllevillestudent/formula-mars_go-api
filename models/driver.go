@@ -2,13 +2,13 @@ package models
 
 import (
 	"errors"
+
+	"gorm.io/gorm"
 )
 
 type Driver struct {
-	ID            uint           `gorm:"primaryKey" json:"id"`
-	Name          string         `gorm:"size:255;not null" json:"name"`
-	Races         []Race         `gorm:"many2many:race_drivers" json:"-"`
-	Championships []Championship `gorm:"many2many:championship_drivers" json:"-"`
+	ID   uint   `gorm:"primaryKey" json:"id"`
+	Name string `gorm:"size:255;not null" json:"name"`
 }
 
 type RaceDriver struct {
@@ -16,6 +16,12 @@ type RaceDriver struct {
 	DriverID int `gorm:"primaryKey" json:"driver_id"`
 	Position int `json:"position"`
 	Laps     int `json:"points"`
+}
+
+func (driver *RaceDriver) BeforeSave(db *gorm.DB) error {
+	driver.Position = 0
+	driver.Laps = 0
+	return nil
 }
 
 type ChampionshipDriver struct {

@@ -11,7 +11,7 @@ type Race struct {
 	Name           string    `gorm:"size:255;not null" json:"name"`
 	Date           time.Time `gorm:"size:255;not null" json:"date"`
 	Finished       bool      `gorm:"not null" json:"finished"`
-	Drivers        []Driver  `gorm:"many2many:race_drivers" json:"drivers"`
+	Drivers        []Driver  `gorm:"many2many:race_drivers;" json:"drivers"`
 }
 
 func GetRaces() ([]Race, error) {

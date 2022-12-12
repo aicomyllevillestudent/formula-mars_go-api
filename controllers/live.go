@@ -40,7 +40,7 @@ func AddLive(c *gin.Context) {
 	live := models.Live{}
 
 	live.RaceID = input.RaceID
-	live.Link = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+	live.Link = "https://stream.aronbuffel.be/hls/race.m3u8"
 
 	err := live.AddLive()
 

@@ -12,7 +12,7 @@ type Live struct {
 func GetLive() (Live, error) {
 	var live Live
 
-	if err := DB.Find(&live).Preload("Race").Last(&live).Error; err != nil {
+	if err := DB.Find(&live).Preload("Race.Drivers").Last(&live).Error; err != nil {
 		return live, errors.New("no live race found")
 	}
 
