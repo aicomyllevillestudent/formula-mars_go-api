@@ -50,6 +50,17 @@ func AddBet(c *gin.Context) {
 		return
 	}
 
+	u, err := models.GetUserByID(user_id)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	u.Wallet -= input.Amount
+
+	u.UpdateWallet()
+
 	bet := models.Bet{}
 
 	bet.UserID = user_id
