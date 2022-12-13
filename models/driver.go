@@ -12,10 +12,10 @@ type Driver struct {
 }
 
 type RaceDriver struct {
-	RaceID   int `gorm:"primaryKey" json:"race_id"`
-	DriverID int `gorm:"primaryKey" json:"driver_id"`
-	Position int `json:"position"`
-	Laps     int `json:"points"`
+	RaceID   uint `gorm:"primaryKey" json:"race_id"`
+	DriverID uint `gorm:"primaryKey" json:"driver_id"`
+	Position int  `json:"position"`
+	Laps     int  `json:"points"`
 }
 
 func (driver *RaceDriver) BeforeSave(db *gorm.DB) error {

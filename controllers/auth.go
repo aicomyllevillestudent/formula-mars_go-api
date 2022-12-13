@@ -20,6 +20,7 @@ type LoginInput struct {
 }
 
 type WalletInput struct {
+	Type   string  `json:type`
 	Wallet float64 `json:"wallet" binding:"required"`
 }
 
@@ -65,10 +66,18 @@ func UpdateWallet(c *gin.Context) {
 		return
 	}
 
-	u.Wallet = input.Wallet
-	u.UpdateWallet()
+	if input.Type == "deposit" {
+		u.Wallet += input.Wallet
+		u.UpdateWallet()
+		c.JSON(http.StatusOK, "Updated")
+	} else if input.Type == "withdraw" {
+		u.Wallet -= input.Wallet
+		u.UpdateWallet()
+		c.JSON(http.StatusOK, "Updated")
+	} else {
+		c.JSON(http.StatusOK, "Not the right type")
+	}
 
-	c.JSON(http.StatusOK, "Updated")
 }
 
 func Login(c *gin.Context) {

@@ -49,7 +49,7 @@ func (r *Race) AddRace() error {
 }
 
 func AddDriversToRace(id *uint) error {
-	var drivers = []RaceDriver{{RaceID: int(*id), DriverID: 1}, {RaceID: int(*id), DriverID: 2}, {RaceID: int(*id), DriverID: 3}, {RaceID: int(*id), DriverID: 4}, {RaceID: int(*id), DriverID: 5}, {RaceID: int(*id), DriverID: 6}}
+	var drivers = []RaceDriver{{RaceID: *id, DriverID: 1}, {RaceID: *id, DriverID: 2}, {RaceID: *id, DriverID: 3}, {RaceID: *id, DriverID: 4}, {RaceID: *id, DriverID: 5}, {RaceID: *id, DriverID: 6}}
 
 	if err := DB.Create(&drivers).Error; err != nil {
 		return err
