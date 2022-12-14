@@ -22,7 +22,11 @@ func GetBets(user_id uint) ([]Bet, error) {
 	return bets, nil
 }
 
-func (bet *Bet) AddBet() error {
+func (bet *Bet) AddBet(user User) error {
+
+	if user.Wallet < bet.Amount {
+		return errors.New("not enough money")
+	}
 
 	if err := DB.Create(&bet).Error; err != nil {
 		return errors.New("bet not added")

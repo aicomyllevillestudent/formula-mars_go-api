@@ -68,7 +68,7 @@ func AddBet(c *gin.Context) {
 	bet.DriverId = input.DriverId
 	bet.Amount = input.Amount
 
-	error := bet.AddBet()
+	error := bet.AddBet(u)
 
 	if error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": error.Error()})
