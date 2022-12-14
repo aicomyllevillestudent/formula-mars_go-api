@@ -11,7 +11,7 @@ type Race struct {
 	Name           string    `gorm:"size:255;not null" json:"name"`
 	Date           time.Time `gorm:"size:255;not null" json:"date"`
 	Finished       bool      `gorm:"not null" json:"finished"`
-	Drivers        []Driver  `gorm:"many2many:race_drivers;" json:"drivers"`
+	Drivers        []Result  `gorm:"many2many:race_drivers;" json:"drivers"`
 }
 
 func GetRaces() ([]Race, error) {
@@ -26,13 +26,37 @@ func GetRaces() ([]Race, error) {
 
 func GetRaceByID(uid uint) (Race, error) {
 
-	var r Race
+	var race Race
+	var drivers []Driver
+	var raceDrivers []RaceDriver
+	var result []Result
 
-	if err := DB.Preload("Drivers").First(&r, uid).Error; err != nil {
-		return r, errors.New("Race not found")
+	if err := DB.First(&race, uid).Error; err != nil {
+		return race, errors.New("Race not found")
 	}
 
-	return r, nil
+	if err := DB.Joins("JOIN race_drivers ON race_drivers.driver_id = drivers.id").Where("race_drivers.race_id = ?", uid).Find(&drivers).Error; err != nil {
+		return race, err
+	}
+
+	DB.Where("race_drivers.race_id = ?", uid).Find(&raceDrivers)
+
+	for _, driver := range drivers {
+		result = append(result, Result{ID: driver.ID, Name: driver.Name})
+	}
+
+	for _, driver := range raceDrivers {
+		for i, res := range result {
+			if res.ID == driver.DriverID {
+				result[i].Position = driver.Position
+				result[i].Laps = driver.Laps
+			}
+		}
+	}
+
+	race.Drivers = result
+
+	return race, nil
 }
 
 func (r *Race) AddRace() error {
