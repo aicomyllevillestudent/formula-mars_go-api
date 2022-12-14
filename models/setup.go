@@ -44,6 +44,10 @@ func ConnectDatabase() {
 		fmt.Println(err)
 	}
 
+	if err := DB.SetupJoinTable(&Championship{}, "Drivers", &ChampionshipDriver{}); err != nil {
+		fmt.Println(err)
+	}
+
 	DB.AutoMigrate(&User{}, &Race{}, &Live{}, &Championship{}, &Driver{}, &Bet{})
 
 }
