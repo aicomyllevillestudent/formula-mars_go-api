@@ -9,10 +9,6 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: create env file
-        run: touch .env
-      - name: add variables to file
-        run: echo "&{{secrets.ENV_FILE}}" > .env
       - uses: actions/checkout@v2
       - name: DigitalOcean App Platform deployment
         uses: digitalocean/app_action@main
