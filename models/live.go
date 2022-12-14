@@ -52,11 +52,10 @@ func (live *Live) AddLive() error {
 	return nil
 }
 
-func (live *Live) UpdateLive() error {
+func (driver *DriverInRace) UpdateLive(id uint) error {
 
-	if err := DB.Find(&live).Last(&live).Updates(&live).Error; err != nil {
-		return err
-	}
+	// live, _ := GetLive()
+	// race := live.Race
 
 	return nil
 }

@@ -13,7 +13,9 @@ type AddLiveInput struct {
 }
 
 type UpdateLiveInput struct {
-	Drivers []models.Driver `json:"drivers"`
+	ID       uint `json:"id"`
+	Position int  `json:"position"`
+	Laps     int  `json:"laps"`
 }
 
 func GetLive(c *gin.Context) {
@@ -61,11 +63,12 @@ func UpdateLive(c *gin.Context) {
 		return
 	}
 
-	live := models.Live{}
+	driver := models.DriverInRace{}
 
-	// live.Drivers = input.Drivers
+	driver.Position = input.Position
+	driver.Laps = input.Laps
 
-	err := live.UpdateLive()
+	err := driver.UpdateLive(input.ID)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
