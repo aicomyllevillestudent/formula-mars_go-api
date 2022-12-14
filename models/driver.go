@@ -18,7 +18,7 @@ type RaceDriver struct {
 	Laps     int  `json:"points"`
 }
 
-type Result struct {
+type DriverInRace struct {
 	ID       uint   `json:"id"`
 	Name     string `json:"name"`
 	Position int    `json:"position"`
