@@ -32,10 +32,20 @@ func (driver *RaceDriver) BeforeSave(db *gorm.DB) error {
 }
 
 type ChampionshipDriver struct {
-	ChampionshipID int `gorm:"primaryKey" json:"championship_id"`
-	DriverID       int `gorm:"primaryKey" json:"driver_id"`
-	Position       int `json:"position"`
-	Points         int `json:"points"`
+	ChampionshipID uint `gorm:"primaryKey" json:"championship_id"`
+	DriverID       uint `gorm:"primaryKey" json:"driver_id"`
+	Points         int  `json:"points"`
+}
+
+type DriverInChampionship struct {
+	ID     uint   `json:"id"`
+	Name   string `json:"name"`
+	Points int    `json:"points"`
+}
+
+func (driver *ChampionshipDriver) BeforeSave(db *gorm.DB) error {
+	driver.Points = 0
+	return nil
 }
 
 func GetDrivers() ([]Driver, error) {
