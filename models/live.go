@@ -54,8 +54,16 @@ func (live *Live) AddLive() error {
 
 func (driver *DriverInRace) UpdateLive(id uint) error {
 
-	// live, _ := GetLive()
-	// race := live.Race
+	live, _ := GetLive()
+	race := live.Race
+	var raceDriver = RaceDriver{}
+
+	raceDriver.Laps = driver.Laps
+	raceDriver.Position = driver.Position
+
+	if err := DB.Model(&RaceDriver{}).Where("race_id = ? and driver_id = ?", race.ID, id).Updates(&raceDriver).Error; err != nil {
+		return err
+	}
 
 	return nil
 }
