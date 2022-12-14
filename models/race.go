@@ -39,17 +39,18 @@ func GetRaceByID(uid uint) (Race, error) {
 		return race, err
 	}
 
-	DB.Where("race_drivers.race_id = ?", uid).Find(&raceDrivers)
-
 	for _, driver := range drivers {
 		result = append(result, DriverInRace{ID: driver.ID, Name: driver.Name})
 	}
+
+	DB.Where("race_drivers.race_id = ?", uid).Find(&raceDrivers)
 
 	for _, driver := range raceDrivers {
 		for i, res := range result {
 			if res.ID == driver.DriverID {
 				result[i].Position = driver.Position
 				result[i].Laps = driver.Laps
+				result[i].Points = driver.Points
 			}
 		}
 	}

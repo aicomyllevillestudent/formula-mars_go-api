@@ -40,6 +40,8 @@ func ConnectDatabase() {
 	postgresDB.SetMaxOpenConns(100)
 	postgresDB.SetConnMaxLifetime(time.Minute)
 
+	// DB.Migrator().DropTable(&User{}, &Race{}, &Live{}, &Championship{}, &Driver{}, &RaceDriver{}, &ChampionshipDriver{}, &Bet{})
+
 	if err := DB.SetupJoinTable(&Race{}, "Drivers", &RaceDriver{}); err != nil {
 		fmt.Println(err)
 	}
@@ -48,6 +50,6 @@ func ConnectDatabase() {
 		fmt.Println(err)
 	}
 
-	DB.AutoMigrate(&User{}, &Race{}, &Live{}, &Championship{}, &Driver{}, &Bet{})
+	DB.AutoMigrate(&User{}, &Race{}, &Live{}, &Championship{}, &Driver{}, &RaceDriver{}, &ChampionshipDriver{}, &Bet{})
 
 }
