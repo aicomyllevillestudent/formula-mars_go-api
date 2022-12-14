@@ -6,8 +6,6 @@ import (
 	"os"
 	"time"
 
-	// _ "github.com/jinzhu/gorm/dialects/postgres"
-	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -16,11 +14,7 @@ var DB *gorm.DB
 
 func ConnectDatabase() {
 
-	err := godotenv.Load(".env")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-	}
+	var err error
 
 	DbDriver := os.Getenv("DB_DRIVER")
 	DbHost := os.Getenv("DB_HOST")
