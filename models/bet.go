@@ -12,10 +12,10 @@ type Bet struct {
 	Amount   float64 `gorm:"type:decimal(10,2)" json:"amount"`
 }
 
-func GetBets(user_id uint) ([]Bet, error) {
+func GetBets(id uint) ([]Bet, error) {
 	var bets []Bet
 
-	if err := DB.Where("user_id = ?", user_id).Find(&bets).Error; err != nil {
+	if err := DB.Where("user_id = ?", id).Find(&bets).Error; err != nil {
 		return bets, errors.New("bets not found")
 	}
 
@@ -25,7 +25,7 @@ func GetBets(user_id uint) ([]Bet, error) {
 func (bet *Bet) AddBet(user User) error {
 
 	if user.Wallet < bet.Amount {
-		return errors.New("not enough money")
+		return errors.New("not enough marscoins")
 	}
 
 	if err := DB.Create(&bet).Error; err != nil {
