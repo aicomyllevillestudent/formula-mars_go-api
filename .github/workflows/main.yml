@@ -1,10 +1,10 @@
 name: Deploy App on DigitalOcean
 
 on:
-  workflow_dispatch:
-  schedule:
-  - cron: "0 */3 * * *"
-
+  push:
+    branches:
+      - main
+      
 jobs:
   sync:
     runs-on: ubuntu-latest
