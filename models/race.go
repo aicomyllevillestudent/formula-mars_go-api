@@ -7,7 +7,7 @@ import (
 
 type Race struct {
 	ID             uint           `gorm:"primaryKey" json:"id"`
-	ChampionshipId uint           `gorm:"not null" json:"championshipId"`
+	ChampionshipID uint           `gorm:"not null" json:"championship_id"`
 	Name           string         `gorm:"size:255;not null" json:"name"`
 	Date           time.Time      `gorm:"size:255;not null" json:"date"`
 	Finished       bool           `gorm:"not null" json:"finished"`

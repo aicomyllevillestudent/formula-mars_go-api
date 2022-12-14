@@ -10,7 +10,7 @@ import (
 )
 
 type RaceInput struct {
-	ChampionshipId uint      `json:"championshipId"`
+	ChampionshipID uint      `json:"championship_id"`
 	Name           string    `json:"name"`
 	Date           time.Time `json:"date"`
 	Finished       bool      `json:"finished"`
@@ -56,7 +56,7 @@ func AddRace(c *gin.Context) {
 
 	r := models.Race{}
 
-	r.ChampionshipId = input.ChampionshipId
+	r.ChampionshipID = input.ChampionshipID
 	r.Name = input.Name
 	r.Date = input.Date
 	r.Finished = input.Finished
@@ -90,7 +90,7 @@ func UpdateRace(c *gin.Context) {
 
 	r := models.Race{}
 
-	r.ChampionshipId = input.ChampionshipId
+	r.ChampionshipID = input.ChampionshipID
 	r.Name = input.Name
 	r.Date = input.Date
 	r.Finished = input.Finished

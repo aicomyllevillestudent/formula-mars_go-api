@@ -89,7 +89,7 @@ func (live *Live) DeleteLive() error {
 		points := GivePoints(driver.Position)
 		driver.Points = points
 		DB.Model(&RaceDriver{}).Where("race_drivers.race_id = ? and race_drivers.driver_id = ?", liveResult.Race.ID, driver.DriverID).UpdateColumn("points", points)
-		DB.Model(&ChampionshipDriver{}).Where("championship_drivers.championship_id = ? and championship_drivers.driver_id = ?", liveResult.Race.ChampionshipId, driver.DriverID).UpdateColumn("points", points)
+		DB.Model(&ChampionshipDriver{}).Where("championship_drivers.championship_id = ? and championship_drivers.driver_id = ?", liveResult.Race.ChampionshipID, driver.DriverID).UpdateColumn("points", points)
 	}
 
 	if err := DB.Last(&live).Delete(&live).Error; err != nil {
