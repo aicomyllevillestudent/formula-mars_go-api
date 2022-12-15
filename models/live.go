@@ -2,7 +2,6 @@ package models
 
 import (
 	"errors"
-	"fmt"
 )
 
 type Live struct {
@@ -89,12 +88,15 @@ func (live *Live) DeleteLive() error {
 	DB.Where("race_drivers.race_id = ?", liveResult.Race.ID).Find(&drivers)
 
 	for _, driver := range drivers {
+		var championshipDriver ChampionshipDriver
 		points := GetPoints(driver.Position)
 		if driver.Position == 1 {
 			winner = driver.DriverID
 		}
 		DB.Model(&RaceDriver{}).Where("race_drivers.race_id = ? and race_drivers.driver_id = ?", liveResult.Race.ID, driver.DriverID).UpdateColumn("points", points)
-		DB.Model(&ChampionshipDriver{}).Where("championship_drivers.championship_id = ? and championship_drivers.driver_id = ?", liveResult.Race.ChampionshipID, driver.DriverID).UpdateColumn("points", points)
+		DB.Where("championship_drivers.championship_id = ? and championship_drivers.driver_id = ?", liveResult.Race.ChampionshipID, driver.DriverID).Find(&championshipDriver)
+		championshipDriver.Points += points
+		DB.Model(&ChampionshipDriver{}).Where("championship_drivers.championship_id = ? and championship_drivers.driver_id = ?", liveResult.Race.ChampionshipID, driver.DriverID).UpdateColumn("points", championshipDriver.Points)
 	}
 
 	DB.Where("race_id = ? and driver_id = ?", live.Race.ID, winner).Find(&bets)
@@ -103,9 +105,6 @@ func (live *Live) DeleteLive() error {
 		var user User
 		DB.Where("id = ?", bet.UserID).Find(&user)
 		user.Wallet += bet.Amount * 2
-		fmt.Println(user.Wallet)
-		fmt.Println(bet.Amount * 2)
-		fmt.Println(user.Wallet + bet.Amount*2)
 		DB.Model(&User{}).Where("id = ?", bet.UserID).UpdateColumn("wallet", user.Wallet)
 	}
 
